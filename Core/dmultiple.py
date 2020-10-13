@@ -10,7 +10,10 @@ pathmin = str(path).rstrip('Core')
 
 #txt file to read lines from
 f = open("oneplus8links.txt", "r")
-sum=0
+
+#variables
+n_list=[]
+
 # download files
 for x in f:
     x = x.rstrip('\n')
@@ -19,13 +22,26 @@ for x in f:
     clean=xfileext.rstrip(xfileext2+'.')
     url=x
     r = requests.get(url)
-    sum=sum+1
+    
+    #append list and check 
+    n_list_exists=n_list.count(clean)
+    n_list.append(clean)
+    # create dupe () to simulate windows copy
+    #create ()
+    if (n_list_exists==0):
+        dupe_extend = ''
+    else:
+        dupe = n_list_exists
+        dupe_extend = '('+str(dupe)+')'
+    
+    
+    print (clean)
     with open(xfileext, 'wb') as u:
             u.write(r.content)
             u.close()
             #rename
-            clean= xfileext.rstrip(xfileext2+'.')+'('+str(sum)+')'+'.'+xfileext2
-            print (clean)
+            clean = xfileext.rstrip(xfileext2+'.')+dupe_extend+'.'+xfileext2
+            print ("saved as",clean)
             os.rename(u.name,clean)
             shutil.move(clean, pathmin+'assets')
-            
+
